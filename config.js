@@ -27,7 +27,7 @@ module.exports = {
     event_url: process.env.EVENT_URL || "grpc://localhost:7052",
     authenticate: process.env.AUTHENTICATE || true,
     authhandler: process.env.AUTHHANDLER || "./authentication/exampleAuthHandler.js",
-    authvalidator: process.env.AUTHVALIDTOR || "./authentication/sessionValidator.js"
+    authvalidator: process.env.AUTHVALIDATOR || "./authentication/sessionValidator.js"
 
 
 }

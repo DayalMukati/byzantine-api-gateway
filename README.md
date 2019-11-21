@@ -4,14 +4,14 @@ API gateway implementation providing access to Hyper Ledger Fabric (HLF) network
 
 ## Table of Contents
 
-- [Table of Contents](#table-of-contents)
-- [Project Setup](#project-setup)
+- [Architecture](#Architecture)
+- [Setup Installation](#project-setup)
 - [Notes](#notes)
 ----
 
 #### Architecture
 
-The gateway is implemented with `Node.js` and uses the `Express` framework to provide restul `HTTP` based endpoints that access HLF network peers using the FABRIC-NODE-SDK.  
+The gateway is implemented with `Node.js` and uses the `Express` framework to provide restful `HTTP` based endpoints that access HLF network peers using the FABRIC-NODE-SDK.  
 
 Api's are defined to execute chaincode and query channel configuration information. 
 
@@ -43,14 +43,15 @@ Configuration options for the Gateway are definedin the `./config.js` file, they
         loglevel: process.env.LOGLEVEL || "all",
         port: process.env.PORT || 9090,
         host: process.env.HOST || "localhost",
-        wallet_path: process.env.KEYSTORE || "app/hfc-key-store",
+        wallet_path: process.env.KEYSTORE || "endpoint/hfc-key-store",
         user_id: process.env.USERID || "PeerAdmin",
         orderer_url: process.env.ORDERER_URL || "grpc://localhost:7050",
         network_url: process.env.NETWORK_URL || "grpc://localhost:7051",
         event_url: process.env.EVENT_URL || "grpc://localhost:7052",
-        authenticate: process.env.AUTHENTICATE || false,
-        authhandler: process.env.AUTHHANDLER || "./app/testAuthHandler.js"
-    
+        authenticate: process.env.AUTHENTICATE || true,
+        authhandler: process.env.AUTHHANDLER || "./authentication/exampleAuthHandler.js",
+        authvalidator: process.env.AUTHVALIDATOR || "./authentication/sessionValidator.js"
+
     }
 
 #### API's 
@@ -58,12 +59,74 @@ Configuration options for the Gateway are definedin the `./config.js` file, they
 
 #### Authentication
 
-API authentication is set to `false` by default, allowing them to be accessed without any authenticationm. If set to true, the authentication api must be called initially with the following API route 
+API authentication is set to `false` by default, allowing them to be accessed without any authenticationm. If set to true, there are two types of autentication validation schemes that can be applied, example implementations are provided for both. 
+
+Authentication is enabled by setting the  `./config.js` `AUTHENTICATE` property to `true` 
+
+    ...
+    authenticate: process.env.AUTHENTICATE || true,
+    ...
+
+A token based or a session based validation scheme can also be specified in the `./config.js` file.
+
+##### Token Based Validator
+
+A token based validator expects a valid `api-token` in each API requests. The gateway will execute the specified validator on each request. The validator module function is passed in a current request and response object, and it can pull an `API-TOKEN` from the request header, and validate the token. An example hard coded token validator is supplied and shown below. 
+
+    module.exports = function (req, res) {
+
+        // Lookup token here, for test purposes token is hardcoded 
+
+        if (req.headers['api-token'] == "changemeplease") {
+            return true;
+        }
+        logger.error("Invalid API Token, request denied...");
+
+        return false;
+    }
+
+The token validator is defined in a `JS` file and referenced in the `./config.js` and assigned to the `authvalidator` property, as shown below. 
+
+    authvalidator: process.env.AUTHVALIDATOR || "./authentication/tokenValidator.js
+
+You'll notice, an environment variable can be used to assign.  
+
+The example above is not for production usage, you should replace the existing logic with logic that validates a token, such as JWT.  
+
+##### Session Based Validator
+
+A session based authentication validator expects an authenticated user identity object stored in the current session. An authenticate API route hase been pre defined, that when called will invoke a module defined in the module referenced in the `./config.js` `authhandler` property.  
+
+    ...
+    authhandler: process.env.AUTHHANDLER || "./authentication/exampleAuthHandler.js",
+    ...
+
+The authentication API route that invokes the handler is shown below.
 
     /authenticate  POST {key/values for authentication handler}
 
-If `authenticate` is set to `true`, then an AUTHHANDLER must be specified to apply authentication. 
+When this route is invoked, the authhandler module function will be invoked. This handling method can validate provided credentials and add them to the session object. An non production example implementation is shown below. 
 
+    ...
+
+    module.exports = function (request,response) {
+
+        var user = { userid: "testuserid" };
+
+        request.session.user = user;
+
+        logger.info("User session created");
+
+        response.status(200);
+        response.send("Authenticated")
+
+    };
+
+    ...
+
+You'll notice that the example simply creates and assign a user object, in production this handler method should apply an actual authentication mechanism before assigning a user object to the session. 
+
+You can find these examples in the `authentication` folder. 
 
 
 

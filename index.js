@@ -49,7 +49,7 @@ app.use(bodyParser.urlencoded({
 }));
 
 // set session properties
-app.use(session({resave: true, saveUninitialized: true, secret: 'XCR3rsasa%RDHHH', cookie: { maxAge: 60000 }}));
+app.use(session({ resave: true, saveUninitialized: true, secret: 'XCR3rsasa%RDHHH', cookie: { maxAge: 60000 } }));
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -80,16 +80,33 @@ function validateChannelIdParameter(req) {
     return validateRequiredParameter(req, 'channelid');
 }
 
-// Check for autenticated
+var authvalidator;
+
+// Check for autenticated sessions
 app.all('/api/*', function (req, res, next) {
 
-    if (appconfig.authenticate) {
-        if (req.session && req.session.user) {
+    if (appconfig.authenticate && appconfig.authenticate) {
+
+
+        if (!authvalidator) {
+            authvalidator = require(appconfig.authvalidator);
+        }
+
+
+        if (!appconfig.authvalidator) {
+
+            logger.error("authvalidator must be defined in ../config.js, see readme for instructions");
+            var err = new Error("Not Authenticated!");
+            res.status(401).send("Not Authenticated");
+            next(err);  //Error, trying to access unauthorized page!
+
+        }
+
+
+        if (authvalidator.validate(req, res)) {
             next();     //If session exists, proceed to page
         } else {
             var err = new Error("Not Authenticated!");
-            //logger.error(request.url);
-            //logger.error(request.method);
             res.status(401).send("Not Authenticated");
             next(err);  //Error, trying to access unauthorized page!
 
@@ -111,7 +128,7 @@ app.post('/authenticate/', function (req, res) {
 
         try {
 
-            require(appconfig.authhandler).testAuthHandler(req,res);
+            require(appconfig.authhandler).handle(req, res);
 
 
         } catch (e) {

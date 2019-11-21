@@ -14,22 +14,20 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+// Authenticate Types -  none, session, token
 
 module.exports = {
     loglevel: process.env.LOGLEVEL || "all",
-    
     port: process.env.PORT || 9090,
     host: process.env.HOST || "localhost",
-
     wallet_path: process.env.KEYSTORE || "app/hfc-key-store",
-
-    channel_id: process.env.CHANNEL_ID || "mychannel",
-    chaincode_id: process.env.CHAINCODE_ID ||"lab",
     user_id: process.env.USERID || "PeerAdmin",
     orderer_url: process.env.ORDERER_URL || "grpc://localhost:7050",
     network_url: process.env.NETWORK_URL || "grpc://localhost:7051",
     event_url: process.env.EVENT_URL || "grpc://localhost:7052",
-    authenticate: process.env.AUTHENTICATE || false,
-    authhandler: process.env.AUTHHANDLER || "./app/testAuthHandler.js"
- 
+    authenticate: process.env.AUTHENTICATE || true,
+    authhandler: process.env.AUTHHANDLER || "./authentication/exampleAuthHandler.js",
+    authvalidator: process.env.AUTHVALIDTOR || "./authentication/tokenValidator.js"
+
+
 }

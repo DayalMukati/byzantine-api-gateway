@@ -18,7 +18,7 @@ limitations under the License.
 var hfc = require('fabric-client');
 var config = require('../config.js');
 var log4js = require('log4js');
-var logger = log4js.getLogger('app/util.js');
+var logger = log4js.getLogger('endpoint/util.js');
 logger.setLevel(config.loglevel);
 
 var client = null;

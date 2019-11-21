@@ -18,7 +18,7 @@ limitations under the License.
 var config = require('../config.js');
 var util = require('./util.js');
 var log4js = require('log4js');
-var logger = log4js.getLogger('app/peers.js');
+var logger = log4js.getLogger('endpoint/peers.js');
 logger.setLevel(config.loglevel);
 
 var getPeers = function (channel_id) {

@@ -21,7 +21,7 @@ var appconfig = require('../config.js');
 logger.setLevel(appconfig.loglevel);
 
 
-var handle = function (request,response) {
+module.exports = function (request,response) {
 
     var user = { userid: "testuserid" };
 
@@ -35,4 +35,4 @@ var handle = function (request,response) {
 
 };
 
-exports.handle = handle;
+

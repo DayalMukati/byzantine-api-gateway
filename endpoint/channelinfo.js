@@ -19,7 +19,7 @@ var util = require('util');
 var config = require('../config.js');
 var util = require('./util.js');
 var log4js = require('log4js');
-var logger = log4js.getLogger('app/channelinfo.js');
+var logger = log4js.getLogger('endpoint/channelinfo.js');
 logger.setLevel(config.loglevel);
 
 var getChannelInfo = function (channel_id) {

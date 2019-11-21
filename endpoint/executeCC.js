@@ -18,7 +18,7 @@ var util = require('util');
 var hfc = require('fabric-client');
 var config = require('../config.js');
 var log4js = require('log4js');
-var logger = log4js.getLogger('app/createLab.js');
+var logger = log4js.getLogger('endpoint/createLab.js');
 
 var channel = {};
 var client = null;

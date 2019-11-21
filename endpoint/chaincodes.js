@@ -1,6 +1,6 @@
 'use strict';
 /** 
-Copyright 2018 Keyhole Software LLC
+Copyright 2019 Keyhole Labs LLC
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -15,48 +15,25 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+var util = require('util');
 var config = require('../config.js');
 var log4js = require('log4js');
-var logger = log4js.getLogger('app/transactionproposalrate.js');
+var logger = log4js.getLogger('endpoint/chaincodes.js');
 logger.setLevel(config.loglevel);
 
 var util = require('./util.js');
 
-/**
- * 
- * Will invoke a specified chaincode with a "noop" function name. Access time will be
- * specified. 
- * 
- *
- * } channel_id 
- * @param {*} chaincode 
- */
-var getTransactionProposalRate = function (channel_id, chaincode) {
+var getChaincodes = function (channel_id) {
     return Promise.resolve().then(() => {
         return util.connectChannel(channel_id);
     }).then((c) => {
-        let tx_id = util.getClient().newTransactionID();
-        let peer = c.getChannelPeers()[0];
-        let targets = [];
-        targets.push(peer);
-
-        const request = {
-            targets: targets,
-            chaincodeId: chaincode,
-            txId: tx_id,
-            fcn: 'queryAllLabs',
-            args: []
-
-        };
-
-        return c.sendTransactionProposal(request);
-
+        return c.queryInstantiatedChaincodes(this.target, true);
     }).then((query_responses) => {
         logger.debug("returned from query" + JSON.stringify(query_responses));
         return JSON.stringify(query_responses);
     }).catch((err) => {
-        logger.error("Caught Error", err);
+        logger.error("ERROR - Caught Error", err);
     });
 };
 
-exports.getTransactionProposalRate = getTransactionProposalRate;
+exports.getChaincodes = getChaincodes;

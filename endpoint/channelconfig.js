@@ -18,7 +18,7 @@ limitations under the License.
 var util = require('util');
 var config = require('../config.js');
 var log4js = require('log4js');
-var logger = log4js.getLogger('app/channelconfig.js');
+var logger = log4js.getLogger('endpoint/channelconfig.js');
 logger.setLevel(config.loglevel);
 
 var util = require('./util.js');

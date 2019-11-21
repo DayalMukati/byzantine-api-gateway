@@ -28,8 +28,7 @@ a token
 
 */
 
-var validate = function (req, res) {
-
+module.exports = function (req, res) {
 
     // Lookup token here, for test purposes token is hardcoded 
 
@@ -43,4 +42,4 @@ var validate = function (req, res) {
 }
 
 
-exports.validate = validate;
+//exports.validate = validate;

@@ -15,20 +15,20 @@ limitations under the License.
 */
 'use strict';
 var log4js = require('log4js');
-var logger = log4js.getLogger('app.js');
+var logger = log4js.getLogger('index.js');
 var app = require('express')();
 var bodyParser = require('body-parser');
 var http = require('http');
 var cors = require('cors');
-var channels = require('./app/channelinfo.js');
-var peers = require('./app/peers.js');
-var blockinfo = require('./app/blockinfo.js');
-var block = require('./app/block.js');
+var channels = require('./endpoint/channelinfo.js');
+var peers = require('./endpoint/peers.js');
+var blockinfo = require('./endpoint/blockinfo.js');
+var block = require('./endpoint/block.js');
 var appconfig = require('./config.js');
-var chaincodes = require('./app/chaincodes.js');
-var txproposalrate = require('./app/transactionproposalrate.js');
-var chaincode = require('./app/executechaincode.js');
-var querychaincode = require('./app/querychaincode.js');
+var chaincodes = require('./endpoint/chaincodes.js');
+var txproposalrate = require('./endpoint/transactionproposalrate.js');
+var chaincode = require('./endpoint/executechaincode.js');
+var querychaincode = require('./endpoint/querychaincode.js');
 var session = require('express-session');
 var cookieParser = require('cookie-parser');
 var host = appconfig.host;
@@ -103,7 +103,7 @@ app.all('/api/*', function (req, res, next) {
         }
 
 
-        if (authvalidator.validate(req, res)) {
+        if (authvalidator(req, res)) {
             next();     //If session exists, proceed to page
         } else {
             var err = new Error("Not Authenticated!");
@@ -128,7 +128,7 @@ app.post('/authenticate/', function (req, res) {
 
         try {
 
-            require(appconfig.authhandler).handle(req, res);
+            require(appconfig.authhandler)(req, res);
 
 
         } catch (e) {

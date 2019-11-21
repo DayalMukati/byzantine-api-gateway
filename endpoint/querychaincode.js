@@ -18,7 +18,7 @@
 var hfc = require('fabric-client');
 var config = require('../config.js');
 var log4js = require('log4js');
-var logger = log4js.getLogger('app/query.js');
+var logger = log4js.getLogger('endpoint/query.js');
 var fs = require('fs');
 var os = require('os');
 var npath = require('path');
@@ -27,7 +27,7 @@ var channel = {};
 var client = null;
 var path = config.wallet_path;
 
-var getAllLabs = function (query) {
+var query = function (channel,chaincode,query) {
     logger.debug("OS user info is: " + JSON.stringify(os.userInfo()));
     logger.debug("default hfc-key-store directory is: " + npath.join(os.homedir(), ".hfc-key-store"));
     logger.debug("Using config: " + JSON.stringify(config));
@@ -55,7 +55,7 @@ var getAllLabs = function (query) {
         logger.debug("Assigning transaction_id: ", transaction_id._transaction_id);
 
         const request = {
-            chaincodeId: config.chaincode_id,
+            chaincodeId: chaincode,
             txId: transaction_id,
             fcn: query,
             args: ['']
@@ -79,4 +79,4 @@ var getAllLabs = function (query) {
 };
 
 
-exports.getAllLabs = getAllLabs;
+exports.query = query;

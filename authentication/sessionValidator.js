@@ -21,7 +21,7 @@ var appconfig = require('../config.js');
 logger.setLevel(appconfig.loglevel);
 
 
-var validate = function (req,res) {
+module.exports = function (req,res) {
 
     if (req.session && req.session.user) {
       return true;   //If session exists, return true 
@@ -31,4 +31,4 @@ var validate = function (req,res) {
 
 };
 
-exports.validate = validate;
+

@@ -30,6 +30,32 @@ Clone the repo:
 Install the dependencies:
 > $ npm install
 
+
+> The current keystore has credentials for the Hyperledger example networks. You can access other networks by modifying the `config.js` so that the `network_url` property points to a peer node address and an admin `USERID` property references an admin user and public/private keys located in the `hfc-key-store` folder.
+
+```javascript
+    module.exports = {
+        loglevel: process.env.LOGLEVEL || "all",
+        port: process.env.PORT || 9090,
+        host: process.env.HOST || "localhost",
+        wallet_path: process.env.KEYSTORE || "endpoint/hfc-key-store",
+        user_id: process.env.USERID || "PeerAdmin",
+        orderer_url: process.env.ORDERER_URL || "grpc://localhost:7050",
+        network_url: process.env.NETWORK_URL || "grpc://localhost:7051",
+        event_url: process.env.EVENT_URL || "grpc://localhost:7052",
+    }
+```
+
+Here is an example public/private and user file in the `hfc-key-store` directory. 
+
+![](images/keystore.png)
+
+The server startup script copies credentials from the `wallet-path` config.js `hfc-key-store` value to the users home `~/hfc-key-store` directory. Make sure the user home directory is writable.
+
+Access credentials are created for a network by enrolling a user here's a [LINK](https://hlf.readthedocs.io/en/v1.1.0/write_first_app.html) describing how a user can be enrolled and credentials generated.  Go to the `Enroll the Admin User` section.
+
+
+
 Launch the Gateway:
 > $ ./run.sh
 

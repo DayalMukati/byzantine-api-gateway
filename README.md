@@ -5,8 +5,10 @@ API gateway implementation providing access to Hyper Ledger Fabric (HLF) network
 ## Table of Contents
 
 - [Architecture](#Architecture)
-- [Setup Installation](#project-setup)
-- [Notes](#notes)
+- [Installation](#Installation)
+- [Configuration](#Configuration)
+- [API](#API)
+- [Authentication](#Authentication)
 ----
 
 #### Architecture
@@ -15,13 +17,14 @@ The gateway is implemented with `Node.js` and uses the `Express` framework to pr
 
 Api's are defined to execute chaincode and query channel configuration information. 
 
-#### Setup Installation
+#### Installation
 
 ##### Requirements
 * [Node](https://nodejs.org/en/download/) 8.9.x (v9.0+ not supported). Recommended version 8.9.4.
 * Python (https://www.python.org/downloads/) 2.7+ (v3+ not supported)
 * `Windows OS Only` - For 'rm' and 'cp' commands, use Powershell or add Git to PATH (C:\Program Files\Git\usr\bin) or install Cygwin.
-* Docker must be installed.
+
+* Have access to HLF network peer URL and Network URL
 
 Clone the repo:
 
@@ -30,8 +33,7 @@ Clone the repo:
 Install the dependencies:
 > $ npm install
 
-
-> The current keystore has credentials for the Hyperledger example networks. You can access other networks by modifying the `config.js` so that the `network_url` property points to a peer node address and an admin `USERID` property references an admin user and public/private keys located in the `hfc-key-store` folder.
+> The current keystore has credentials and properties set for the Hyperledger example networks. You can access other networks by modifying the `config.js` so that the `network_url` property points to a peer node address and an admin `USERID` property references an admin user and public/private keys located in the `hfc-key-store` folder.
 
 ```javascript
     module.exports = {
@@ -45,7 +47,6 @@ Install the dependencies:
         event_url: process.env.EVENT_URL || "grpc://localhost:7052",
     }
 ```
-
 Here is an example public/private and user file in the `hfc-key-store` directory. 
 
 ![](images/keystore.png)
@@ -53,8 +54,6 @@ Here is an example public/private and user file in the `hfc-key-store` directory
 The server startup script copies credentials from the `wallet-path` config.js `hfc-key-store` value to the users home `~/hfc-key-store` directory. Make sure the user home directory is writable.
 
 Access credentials are created for a network by enrolling a user here's a [LINK](https://hlf.readthedocs.io/en/v1.1.0/write_first_app.html) describing how a user can be enrolled and credentials generated.  Go to the `Enroll the Admin User` section.
-
-
 
 Launch the Gateway:
 > $ ./run.sh
@@ -80,7 +79,7 @@ Configuration options for the Gateway are definedin the `./config.js` file, they
 
     }
 
-#### API's 
+#### API
 
 
 #### Authentication

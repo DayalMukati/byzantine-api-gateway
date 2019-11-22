@@ -5,8 +5,10 @@ API gateway implementation providing access to Hyper Ledger Fabric (HLF) network
 ## Table of Contents
 
 - [Architecture](#Architecture)
-- [Setup Installation](#project-setup)
-- [Notes](#notes)
+- [Installation](#Installation)
+- [Configuration](#Configuration)
+- [API](#API)
+- [Authentication](#Authentication)
 ----
 
 #### Architecture
@@ -15,13 +17,24 @@ The gateway is implemented with `Node.js` and uses the `Express` framework to pr
 
 Api's are defined to execute chaincode and query channel configuration information. 
 
-#### Setup Installation
+#### Installation
 
 ##### Requirements
 * [Node](https://nodejs.org/en/download/) 8.9.x (v9.0+ not supported). Recommended version 8.9.4.
 * Python (https://www.python.org/downloads/) 2.7+ (v3+ not supported)
 * `Windows OS Only` - For 'rm' and 'cp' commands, use Powershell or add Git to PATH (C:\Program Files\Git\usr\bin) or install Cygwin.
-* Docker must be installed.
+
+###### HLF Network Access Credentials
+
+The API Gateway utilizes the HLF Node.js client SDK, therefore an enrolled user credentials are required for the API endpoints to access
+
+ Here is an example of the  public/private keys and user file in the `hfc-key-store` directory. 
+
+![](images/keystore.png)
+
+The server startup script copies credentials from the `wallet-path` config.js `hfc-key-store` value to the users home `~/hfc-key-store` directory. Make sure the user home directory is writable.
+
+Access credentials are created for a network by enrolling a user here's a [LINK](https://hlf.readthedocs.io/en/v1.1.0/write_first_app.html) describing how a user can be enrolled and credentials generated.  Go to the `Enroll the Admin User` section.
 
 Clone the repo:
 
@@ -54,7 +67,20 @@ Configuration options for the Gateway are definedin the `./config.js` file, they
 
     }
 
+You'll notice they are set to a localhost assumming Peer and Orderer are running locally. 
+
 #### API's 
+
+##### Authenticate
+If authenticate is set to true and sessionValidator set, route for validating credentials. 
+
+    /authenticate POST {key/value}
+
+##### Block Info 
+Current Hash and Number of Blocks
+
+![](images/keystore.png)
+
 
 
 #### Authentication

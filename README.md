@@ -24,7 +24,6 @@ Api's are defined to execute chaincode and query channel configuration informati
 * Python (https://www.python.org/downloads/) 2.7+ (v3+ not supported)
 * `Windows OS Only` - For 'rm' and 'cp' commands, use Powershell or add Git to PATH (C:\Program Files\Git\usr\bin) or install Cygwin.
 
-<<<<<<< HEAD
 ###### HLF Network Access Credentials
 
 The API Gateway utilizes the HLF Node.js client SDK, therefore an enrolled user credentials are required for the API endpoints to access
@@ -36,9 +35,6 @@ The API Gateway utilizes the HLF Node.js client SDK, therefore an enrolled user 
 The server startup script copies credentials from the `wallet-path` config.js `hfc-key-store` value to the users home `~/hfc-key-store` directory. Make sure the user home directory is writable.
 
 Access credentials are created for a network by enrolling a user here's a [LINK](https://hlf.readthedocs.io/en/v1.1.0/write_first_app.html) describing how a user can be enrolled and credentials generated.  Go to the `Enroll the Admin User` section.
-=======
-* Have access to HLF network peer URL and Network URL
->>>>>>> c59dd4d408c56292a0201bb0f6649445d1a5bec4
 
 Clone the repo:
 
@@ -61,13 +57,6 @@ Install the dependencies:
         event_url: process.env.EVENT_URL || "grpc://localhost:7052",
     }
 ```
-Here is an example public/private and user file in the `hfc-key-store` directory. 
-
-![](images/keystore.png)
-
-The server startup script copies credentials from the `wallet-path` config.js `hfc-key-store` value to the users home `~/hfc-key-store` directory. Make sure the user home directory is writable.
-
-Access credentials are created for a network by enrolling a user here's a [LINK](https://hlf.readthedocs.io/en/v1.1.0/write_first_app.html) describing how a user can be enrolled and credentials generated.  Go to the `Enroll the Admin User` section.
 
 Launch the Gateway:
 > $ ./run.sh
@@ -93,13 +82,9 @@ Configuration options for the Gateway are definedin the `./config.js` file, they
 
     }
 
-<<<<<<< HEAD
 You'll notice they are set to a localhost assumming Peer and Orderer are running locally. 
 
 #### API's 
-=======
-#### API
->>>>>>> c59dd4d408c56292a0201bb0f6649445d1a5bec4
 
 ##### Authenticate
 If authenticate is set to true and sessionValidator set, route for validating credentials. 
@@ -109,7 +94,7 @@ If authenticate is set to true and sessionValidator set, route for validating cr
 ##### Block Info 
 Current Hash and Number of Blocks
 
-![](images/keystore.png)
+![](images/blockinfo.png)
 
 
 

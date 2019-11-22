@@ -24,6 +24,7 @@ Api's are defined to execute chaincode and query channel configuration informati
 * Python (https://www.python.org/downloads/) 2.7+ (v3+ not supported)
 * `Windows OS Only` - For 'rm' and 'cp' commands, use Powershell or add Git to PATH (C:\Program Files\Git\usr\bin) or install Cygwin.
 
+<<<<<<< HEAD
 ###### HLF Network Access Credentials
 
 The API Gateway utilizes the HLF Node.js client SDK, therefore an enrolled user credentials are required for the API endpoints to access
@@ -35,6 +36,9 @@ The API Gateway utilizes the HLF Node.js client SDK, therefore an enrolled user 
 The server startup script copies credentials from the `wallet-path` config.js `hfc-key-store` value to the users home `~/hfc-key-store` directory. Make sure the user home directory is writable.
 
 Access credentials are created for a network by enrolling a user here's a [LINK](https://hlf.readthedocs.io/en/v1.1.0/write_first_app.html) describing how a user can be enrolled and credentials generated.  Go to the `Enroll the Admin User` section.
+=======
+* Have access to HLF network peer URL and Network URL
+>>>>>>> c59dd4d408c56292a0201bb0f6649445d1a5bec4
 
 Clone the repo:
 
@@ -42,6 +46,28 @@ Clone the repo:
 
 Install the dependencies:
 > $ npm install
+
+> The current keystore has credentials and properties set for the Hyperledger example networks. You can access other networks by modifying the `config.js` so that the `network_url` property points to a peer node address and an admin `USERID` property references an admin user and public/private keys located in the `hfc-key-store` folder.
+
+```javascript
+    module.exports = {
+        loglevel: process.env.LOGLEVEL || "all",
+        port: process.env.PORT || 9090,
+        host: process.env.HOST || "localhost",
+        wallet_path: process.env.KEYSTORE || "endpoint/hfc-key-store",
+        user_id: process.env.USERID || "PeerAdmin",
+        orderer_url: process.env.ORDERER_URL || "grpc://localhost:7050",
+        network_url: process.env.NETWORK_URL || "grpc://localhost:7051",
+        event_url: process.env.EVENT_URL || "grpc://localhost:7052",
+    }
+```
+Here is an example public/private and user file in the `hfc-key-store` directory. 
+
+![](images/keystore.png)
+
+The server startup script copies credentials from the `wallet-path` config.js `hfc-key-store` value to the users home `~/hfc-key-store` directory. Make sure the user home directory is writable.
+
+Access credentials are created for a network by enrolling a user here's a [LINK](https://hlf.readthedocs.io/en/v1.1.0/write_first_app.html) describing how a user can be enrolled and credentials generated.  Go to the `Enroll the Admin User` section.
 
 Launch the Gateway:
 > $ ./run.sh
@@ -67,9 +93,13 @@ Configuration options for the Gateway are definedin the `./config.js` file, they
 
     }
 
+<<<<<<< HEAD
 You'll notice they are set to a localhost assumming Peer and Orderer are running locally. 
 
 #### API's 
+=======
+#### API
+>>>>>>> c59dd4d408c56292a0201bb0f6649445d1a5bec4
 
 ##### Authenticate
 If authenticate is set to true and sessionValidator set, route for validating credentials. 

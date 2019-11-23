@@ -25,7 +25,7 @@ module.exports = {
     orderer_url: process.env.ORDERER_URL || "grpc://localhost:7050",
     network_url: process.env.NETWORK_URL || "grpc://localhost:7051",
     event_url: process.env.EVENT_URL || "grpc://localhost:7052",
-    authenticate: process.env.AUTHENTICATE || true,
+    authenticate: process.env.AUTHENTICATE || false,
     authhandler: process.env.AUTHHANDLER || "./authentication/exampleAuthHandler.js",
     authvalidator: process.env.AUTHVALIDATOR || "./authentication/sessionValidator.js"
 

@@ -154,7 +154,7 @@ app.post('/authenticate/', function (req, res) {
 
 
 app.post('/api/execute', function (req, res) {
-    logger.debug('================ /createLab ======================');
+    logger.debug('================ /execute chaincode ======================');
 
     var error = null;
     var chaincodeid = null;
@@ -186,13 +186,17 @@ app.post('/api/execute', function (req, res) {
     var args = req.body.args;
     var obj;
 
+
     try {
-        obj = JSON.parse(args);
+        //obj = JSON.parse(args);
+        obj = args;
     } catch (e) {
         error = "Error, Parsing Args, check format";
+        logger.error(e);
     }
 
     if (error != null) {
+        logger.error(error);
         res.status(500);
         res.send(error);
 

@@ -84,14 +84,14 @@ Configuration options for the Gateway are definedin the `./config.js` file, they
 
 You'll notice they are set to a localhost assumming Peer and Orderer are running locally. 
 
-#### API's 
+### API's 
 
-##### Authenticate
+### Authenticate
 If authenticate is set to true and sessionValidator set, route for validating credentials. 
 
     /authenticate POST {key/value}
 
-##### Block Info 
+### Block Info 
 Current Hash and Number of Blocks
 
 ![](images/blockinfo.png)

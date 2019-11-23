@@ -44,7 +44,7 @@ var execute = function (channel_id,chaincode,fnc,args) {
         if (!user ||  !user.isEnrolled()) {
             console.error("User not defined, or not enrolled - error");
         }
-        channel = client.newChannel(config.channel_id);
+        channel = client.newChannel(channel_id);
         peerObj = client.newPeer(config.network_url);
         channel.addOrderer(client.newOrderer(config.orderer_url));
         channel.addPeer(peerObj);

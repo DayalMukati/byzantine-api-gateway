@@ -26,6 +26,7 @@ var peer = null;
 var path = config.wallet_path;
 var org = config.org;
 var pool = [];
+var targets = [];
 
 var connectChannel = function (channel_id) {
     logger.info("Connecting to channel: " + channel_id);
@@ -50,12 +51,18 @@ var connectChannel = function (channel_id) {
             try {
                 channel = client.newChannel(channel_id);
                 peer = client.newPeer(config.network_url);
+                
+
+
+
             } catch (error) {
                 logger.error("Error creating new channel: " + channel_id);
                 logger.error("Error message: " + error);
                 return null;
             }
             channel.addPeer(peer);
+            channel.addOrderer(client.newOrderer(config.orderer_url));
+            targets.push(peer);
             // channelid = channel_id;
             let channel_event_hub = channel.newChannelEventHub(peer);
 

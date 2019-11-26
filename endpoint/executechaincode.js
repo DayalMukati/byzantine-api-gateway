@@ -20,6 +20,7 @@ var hfc = require('fabric-client');
 var config = require('../config.js');
 var log4js = require('log4js');
 var logger = log4js.getLogger('endpoint/createLab.js');
+var hlfutil = require('./util');
 
 var channel = {};
 var client = null;
@@ -27,32 +28,17 @@ var path = config.wallet_path;
 var targets = [];
 var tx_id = null;
 var peerObj = null;
+var targets = null;
 
 logger.setLevel(config.loglevel);
 
 var execute = function (channel_id,chaincode,fnc,args) {
     return Promise.resolve().then(() => {
-        console.log("Create a client and set the wallet location");
-        client = new hfc();
-        return hfc.newDefaultKeyValueStore({ path: path });
-    }).then((wallet) => {
-        console.log("Set wallet path, and associate user ", config.user_id, " with application");
-        client.setStateStore(wallet);
-        return client.getUserContext(config.user_id, true);
-    }).then((user) => {
-        console.log("Check user is enrolled, and set a query URL in the network");
-        if (!user ||  !user.isEnrolled()) {
-            console.error("User not defined, or not enrolled - error");
-        }
-        channel = client.newChannel(channel_id);
-        peerObj = client.newPeer(config.network_url);
-        channel.addOrderer(client.newOrderer(config.orderer_url));
-        channel.addPeer(peerObj);
-        targets.push(peerObj);
-        return;
-    }).then(() => {
+        return hlfutil.connectChannel(channel_id);
+    }).then((c) => {
         console.log("Make query");
-        tx_id = client.newTransactionID();
+        channel = c;
+        tx_id = hlfutil.getClient().newTransactionID();
         console.log("Assigning transaction_id: ", tx_id._transaction_id);
 
         // queryCar - requires 1 argument, ex: args: ['CAR4'],
@@ -61,7 +47,7 @@ var execute = function (channel_id,chaincode,fnc,args) {
 
         console.log( "chaincode "+chaincode + " - "+fnc+" - "+args.length);
         const request = {
-            targets: targets,
+            targets: hlfutil.targets,
             chaincodeId: chaincode,
             txId: tx_id,
             fcn: fnc,

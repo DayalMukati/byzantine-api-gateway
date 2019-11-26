@@ -1,8 +1,6 @@
 # byzantine-api-gateway
 
-API gateway implementation providing access to Hyper Ledger Fabric (HLF) networks. Useful for executing Chaincode (SmartContracts) and querying the blockchain. 
-
-Useful for integrating client applications with a network and developing distributed based applicadtions.
+API gateway implementation providing access to Hyper Ledger Fabric (HLF) networks. Useful for executing Chaincode (SmartContracts) and querying the blockchain by client applications.
 
 ## Table of Contents
 

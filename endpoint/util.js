@@ -69,7 +69,7 @@ var connectChannel = function (channel_id) {
             add(channel_id, channel);
             // keep the block_reg to unregister with later, if needed
             let block_reg = channel_event_hub.registerBlockEvent((block) => {
-                logger.debug('Successfully received the block event - ' + JSON.stringify(block));
+                logger.debug('Successfully received the block event Block #' + block.header.number + " Hash: "+ block.header.data_hash);
                 global.socket.emit('blocks', (Number(block.header.number) + 1));
             }, (error) => {
                 logger.error('Failed to receive the block event: ' + error);
@@ -132,6 +132,8 @@ var removeChannel = function (cid) {
 
     return;
 }
+
+
 
 
 exports.connectChannel = connectChannel;

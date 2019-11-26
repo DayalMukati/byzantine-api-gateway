@@ -213,51 +213,6 @@ app.post('/api/execute', function (req, res) {
 
 
 
-app.post('/api/query', function (req, res) {
-    logger.debug('================ /createLab ======================');
-
-    var error = null;
-    var chaincodeid = null;
-    var channel = null;
-    var query = null;
-
-
-    if (!req.body.query) {
-        error = "Error, Query required";
-    } else {
-        query = req.body.query;
-    }
-
-
-    if (!req.body.channeid) {
-        error = "Error, channelid required";
-    } else {
-        channel = req.body.channelid;
-    }
-
-
-    if (!req.body.chaincodeid) {
-        error = "Error, Chaincodeid required";
-    } else {
-        chaincodeid = req.body.chaincodeid;
-    }
-
-    if (error != null) {
-        res.status(500);
-        res.send(error);
-
-    } else {
-
-        querychaincode.query(channel, chaincodeid, query)
-            .then(function (message) {
-                res.send(message);
-            });
-
-    }
-
-});
-
-
 app.post('/api/channel', function (req, res) {
     logger.info('================ /channel ======================');
 

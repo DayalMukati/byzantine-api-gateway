@@ -1,6 +1,8 @@
 # byzantine-api-gateway
 
-API gateway implementation providing access to Hyper Ledger Fabric (HLF) networks. Useful for providing application access to HLF peer nodes. 
+API gateway implementation providing access to Hyper Ledger Fabric (HLF) networks. Useful for executing Chaincode (SmartContracts) and querying the blockchain. 
+
+Useful for integrating client applications with a network and developing distributed based applicadtions.
 
 ## Table of Contents
 
@@ -9,6 +11,7 @@ API gateway implementation providing access to Hyper Ledger Fabric (HLF) network
 - [Configuration](#Configuration)
 - [API](#API)
 - [Authentication](#Authentication)
+- [Websockers](#Websockets)
 ----
 
 #### Architecture
@@ -18,6 +21,7 @@ The gateway is implemented with `Node.js` and uses the `Express` framework to pr
 Api's are defined to execute chaincode and query channel configuration information. 
 
 #### Installation
+You will need access to a Hyplerledger Fabric Peer Network Node for the API gateway to access. 
 
 ##### Requirements
 * [Node](https://nodejs.org/en/download/) 8.9.x (v9.0+ not supported). Recommended version 8.9.4.
@@ -87,13 +91,6 @@ You'll notice they are set to a localhost assumming Peer and Orderer are running
 ### API
 Restful API route definitions. 
 
-### Authenticate
-If authenticate is set to true calling this API route will invoke the specified session
-Validator where form parameters can be processed and authentication logic performed. 
-See [Authentication](#Authentication) section below for more information.
-
-![](images/authenticate.png)
-
 ### Block Info 
 Current Hash and Number of Blocks
 
@@ -108,6 +105,18 @@ Executes chaincode by specifying channel, chaincode name, function, and argument
 Returns installed chaincodes for a channel
 
 ![](images/chaincodes.png)
+
+### Peers
+Returns Peers in the network 
+
+![](images/peers.png)
+
+### Authenticate
+If authenticate is set to true calling this API route will invoke the specified session
+Validator where form parameters can be processed and authentication logic performed. 
+See [Authentication](#Authentication) section below for more information.
+
+![](images/authenticate.png)
 
 #### Authentication
 
@@ -180,6 +189,17 @@ You'll notice that the example simply creates and assign a user object, in produ
 
 You can find these examples in the `authentication` folder. 
 
+#### Websockets 
+The gateway implements a web socket that can be opened by a client to listen for new blocks being added to the blockchain. Using the node SDK's EventHub implementation. 
 
+Here's some example ReactJS code that defines a callback that will be invoked when a block is addded to the network.  
 
+    var cb = function(noop, blocks) { console.log("Blocks Added")};
+    const  socket = openSocket(<api server url>);
+    function subscribeToBlocks(cb) {
+    socket.on('blocks', blocks => cb(null, blocks));
+    socket.emit('subscribeToBlocks', 1000);
+    }
+
+The above code would reside in a client side Web application that provides a callback that updates the UI in someway when new blocks are added to the blockchain. 
 

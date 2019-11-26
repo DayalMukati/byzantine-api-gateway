@@ -11,7 +11,7 @@ Useful for integrating client applications with a network and developing distrib
 - [Configuration](#Configuration)
 - [API](#API)
 - [Authentication](#Authentication)
-- [Websockers](#Websockets)
+- [Websockets](#Websockets)
 ----
 
 #### Architecture

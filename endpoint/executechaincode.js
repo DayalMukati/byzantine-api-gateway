@@ -147,7 +147,7 @@ var execute = function (channel_id,chaincode,fnc,args) {
     }).then((response) => {
         if (response.status === 'SUCCESS') {
             console.log('Successfully sent transaction to the orderer.');
-            return tx_id.getTransactionID();
+            return "Transaction has been Ordered: "+chaincode+"("+fnc+") tx:"+tx_id.getTransactionID();
         } else {
             console.error('Failed to order the transaction. Error code: ' + response.status);
             return 'Failed to order the transaction. Error code: ' + response.status;

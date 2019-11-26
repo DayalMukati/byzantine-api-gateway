@@ -87,16 +87,26 @@ You'll notice they are set to a localhost assumming Peer and Orderer are running
 ### API's 
 
 ### Authenticate
-If authenticate is set to true and sessionValidator set, route for validating credentials. 
+If authenticate is set to true calling this API route will invoke the specified session
+Validator where form parameters can be processed and authentication logic performed. 
+See [Authentication](#Authentication) section below for more information.
 
-    /authenticate POST {key/value}
+![](images/authenticate.png)
 
 ### Block Info 
 Current Hash and Number of Blocks
 
 ![](images/blockinfo.png)
 
+### Execute Chaincode
+Executes chaincode by specifying channel, chaincode name, function, and arguments
 
+![](images/execute.png)
+
+### Installed Chaincodes
+Returns installed chaincodes for a channel
+
+![](images/chaincodes.png)
 
 #### Authentication
 

@@ -84,7 +84,8 @@ Configuration options for the Gateway are definedin the `./config.js` file, they
 
 You'll notice they are set to a localhost assumming Peer and Orderer are running locally. 
 
-### API's 
+### API
+Restful API route definitions. 
 
 ### Authenticate
 If authenticate is set to true calling this API route will invoke the specified session

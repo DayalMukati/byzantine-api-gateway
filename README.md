@@ -189,7 +189,7 @@ You'll notice that the example simply creates and assign a user object, in produ
 
 You can find these examples in the `authentication` folder. 
 
-#### Websockets 
+### Websockets 
 The gateway implements a web socket that can be opened by a client to listen for new blocks being added to the blockchain. Using the node SDK's EventHub implementation. 
 
 Here's some example ReactJS code that defines a callback that will be invoked when a block is addded to the network.  
